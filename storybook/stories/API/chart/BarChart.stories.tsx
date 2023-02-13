@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar, BarChart, ResponsiveContainer } from '../../../../src';
-import { pageData } from '../../data';
+import { pageData, callbackEvent } from '../../data';
 
 export default {
   component: BarChart,
@@ -18,5 +18,6 @@ export const Simple = {
   },
   args: {
     data: pageData,
+    onClick: callbackEvent,
   },
 };

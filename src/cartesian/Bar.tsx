@@ -64,6 +64,7 @@ type RectangleShapeType =
 interface BarProps extends InternalBarProps {
   className?: string;
   layout?: 'horizontal' | 'vertical';
+  onClick?: void;
   xAxisId?: string | number;
   yAxisId?: string | number;
   stackId?: string | number;
@@ -161,7 +162,7 @@ export class Bar extends PureComponent<Props, State> {
       return null;
     }
 
-    const { layout } = props;
+    const { layout, onClick } = props;
     const { dataKey, children, minPointSize } = item.props;
     const numericAxis = layout === 'horizontal' ? yAxis : xAxis;
     const stackedDomain = stackedData ? numericAxis.scale.domain() : null;
@@ -239,7 +240,7 @@ export class Bar extends PureComponent<Props, State> {
       };
     });
 
-    return { data: rects, layout, ...offset };
+    return { data: rects, layout, onClick, ...offset };
   };
 
   state: State = { isAnimationFinished: false };
@@ -296,7 +297,7 @@ export class Bar extends PureComponent<Props, State> {
   }
 
   renderRectanglesStatically(data: BarRectangleItem[]) {
-    const { shape } = this.props;
+    const { shape, onClick } = this.props;
     const baseProps = filterProps(this.props);
 
     return (
@@ -306,6 +307,7 @@ export class Bar extends PureComponent<Props, State> {
 
         return (
           <Layer
+            onClick={() => onClick(props, i, null)}
             className="recharts-bar-rectangle"
             {...adaptEventsOfChild(this.props, entry, i)}
             key={`rectangle-${i}`} // eslint-disable-line react/no-array-index-key
